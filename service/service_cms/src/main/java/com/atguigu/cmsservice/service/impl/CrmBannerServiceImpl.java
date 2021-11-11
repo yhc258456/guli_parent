@@ -5,7 +5,6 @@ import com.atguigu.cmsservice.mapper.CrmBannerMapper;
 import com.atguigu.cmsservice.service.CrmBannerService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +26,6 @@ public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner
         QueryWrapper<CrmBanner> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
         queryWrapper.select().last("limit 4");
-        List<CrmBanner> bannerList = baseMapper.selectList(queryWrapper);
-        return bannerList;
+        return baseMapper.selectList(queryWrapper);
     }
 }

@@ -38,7 +38,7 @@ public class CourseFrontController {
     @PostMapping("getFrontCousrList/{current}/{limit}")
     public R getFrontTeacherList(@PathVariable long current, @PathVariable long limit,
                                  @RequestBody CourseQueryFrontVo courseQueryVo) {
-        Page<EduCourse> pageTeacher = new Page(current, limit);
+        Page<EduCourse> pageTeacher = new Page<>(current, limit);
         Map<String, Object> map = eduCourseService.getFrontCourseList(pageTeacher, courseQueryVo);
         return R.ok().data(map);
     }

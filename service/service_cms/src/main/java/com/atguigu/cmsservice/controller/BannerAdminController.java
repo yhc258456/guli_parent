@@ -28,7 +28,7 @@ public class BannerAdminController {
 
     @GetMapping("pageBanner/{current}/{limit}")
     public R getpageBanner(@PathVariable long current, @PathVariable long limit) {
-        Page<CrmBanner> bannerPage = new Page(current, limit);
+        Page<CrmBanner> bannerPage = new Page<>(current, limit);
         IPage<CrmBanner> page = crmBannerService.page(bannerPage, null);
         List<CrmBanner> list = page.getRecords();
         long total = page.getTotal();
