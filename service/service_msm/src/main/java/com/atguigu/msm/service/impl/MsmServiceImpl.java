@@ -6,7 +6,6 @@ import com.aliyuncs.CommonResponse;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.atguigu.msm.service.MsmService;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 public class MsmServiceImpl implements MsmService {
     @Override
     public boolean sengMessage(HashMap<String, Object> params, String phoneNum) {
-        // TODO 发送阿里云短信
+        // 发送阿里云短信
         // 老师的阿里云密钥 LTAI4FvvVEWiTJ3GNJJqJnk7  9st82dv7EvFk9mTjY01XXbM632fRbG
         if (StringUtils.isEmpty(phoneNum)) return false;
         DefaultProfile profile =
@@ -39,10 +38,7 @@ public class MsmServiceImpl implements MsmService {
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(params));
         try {
             CommonResponse response = client.getCommonResponse(request);
-            System.out.println(response.getData());
             return response.getHttpResponse().isSuccess();
-        } catch (ServerException e) {
-            e.printStackTrace();
         } catch (ClientException e) {
             e.printStackTrace();
         }
