@@ -70,7 +70,7 @@ public class HttpClient {
 
 	public void addParameter(String key, String value) {
 		if (param == null)
-			param = new HashMap<String, String>();
+			param = new HashMap<>();
 		param.put(key, value);
 	}
 
@@ -149,7 +149,9 @@ public class HttpClient {
 					content = EntityUtils.toString(entity, Consts.UTF_8);
 				}
 			} finally {
-				response.close();
+				if (response != null){
+					response.close();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

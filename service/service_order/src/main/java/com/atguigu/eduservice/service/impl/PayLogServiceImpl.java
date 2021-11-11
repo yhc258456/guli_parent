@@ -1,5 +1,6 @@
 package com.atguigu.eduservice.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.eduservice.entity.Order;
 import com.atguigu.eduservice.entity.PayLog;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,13 +40,14 @@ public class PayLogServiceImpl extends ServiceImpl<PayLogMapper, PayLog> impleme
             QueryWrapper<Order> wrapper = new QueryWrapper<>();
             wrapper.eq("order_no", orderNo);
             Order order = orderService.getOne(wrapper);
-            Map m = new HashMap();
+            Map<String, String> m = new HashMap<>();
+            String outTradeNo = "out_trade_no";
             //1、设置支付参数
             m.put("appid", "wx74862e0dfcf69954");
             m.put("mch_id", "1558950191");
             m.put("nonce_str", WXPayUtil.generateNonceStr());
             m.put("body", order.getCourseTitle());
-            m.put("out_trade_no", orderNo);
+            m.put(outTradeNo, orderNo);
             m.put("total_fee", order.getTotalFee().multiply(new BigDecimal("100")).longValue() + "");
             m.put("spbill_create_ip", "127.0.0.1");
             m.put("notify_url", "http://guli.shop/api/order/weixinPay/weixinNotify\n");
@@ -59,14 +62,14 @@ public class PayLogServiceImpl extends ServiceImpl<PayLogMapper, PayLog> impleme
             String xml = client.getContent();
             Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
             //4、封装返回结果集
-            Map map = new HashMap<>();
-            map.put("out_trade_no", orderNo);
+            Map<String, Object> map = new HashMap<>();
+            map.put(outTradeNo, orderNo);
             map.put("course_id", order.getCourseId());
             map.put("total_fee", order.getTotalFee());
             map.put("result_code", resultMap.get("result_code"));
             map.put("code_url", resultMap.get("code_url"));
             //微信支付二维码2小时过期，可采取2小时未支付取消订单
-            //redisTemplate.opsForValue().set(orderNo, map, 120, TimeUnit.MINUTES);
+//            redisTemplate.opsForValue().set(orderNo, map, 120, TimeUnit.MINUTES);
             return map;
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +81,7 @@ public class PayLogServiceImpl extends ServiceImpl<PayLogMapper, PayLog> impleme
     public Map<String, String> queryPayStatus(String orderNo) {
         try {
             //1、封装参数
-            Map m = new HashMap<>();
+            Map<String, Object> m = new HashMap<>();
             m.put("appid", "wx74862e0dfcf69954");
             m.put("mch_id", "1558950191");
             m.put("out_trade_no", orderNo);
@@ -90,14 +93,13 @@ public class PayLogServiceImpl extends ServiceImpl<PayLogMapper, PayLog> impleme
             client.post();
             //3、返回第三方的数据
             String xml = client.getContent();
-            Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
             //6、转成Map
             //7、返回
-            return resultMap;
+            return WXPayUtil.xmlToMap(xml);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new HashMap<>();
     }
 
     @Override
@@ -120,7 +122,7 @@ public class PayLogServiceImpl extends ServiceImpl<PayLogMapper, PayLog> impleme
         payLog.setTotalFee(order.getTotalFee());//总金额(分)
         payLog.setTradeState(map.get("trade_state"));//支付状态
         payLog.setTransactionId(map.get("transaction_id"));
-        payLog.setAttr(JSONObject.toJSONString(map));
+        payLog.setAttr(JSON.toJSONString(map));
         baseMapper.insert(payLog);//插入到支付日志表
     }
 }
