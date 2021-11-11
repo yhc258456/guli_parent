@@ -81,7 +81,7 @@ public class PayLogServiceImpl extends ServiceImpl<PayLogMapper, PayLog> impleme
     public Map<String, String> queryPayStatus(String orderNo) {
         try {
             //1、封装参数
-            Map<String, Object> m = new HashMap<>();
+            Map<String, String> m = new HashMap<>();
             m.put("appid", "wx74862e0dfcf69954");
             m.put("mch_id", "1558950191");
             m.put("out_trade_no", orderNo);
