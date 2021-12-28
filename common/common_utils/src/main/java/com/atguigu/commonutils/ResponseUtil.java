@@ -9,6 +9,9 @@ import java.io.IOException;
 
 public class ResponseUtil {
 
+    private ResponseUtil() {
+    }
+
     public static void out(HttpServletResponse response, R r) {
         ObjectMapper mapper = new ObjectMapper();
         response.setStatus(HttpStatus.OK.value());
