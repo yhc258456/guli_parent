@@ -110,8 +110,7 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
     @Override
     public CoursePublishVo publishCourseInfo(String id) {
         //调用mapper
-        CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(id);
-        return publishCourseInfo;
+        return baseMapper.getPublishCourseInfo(id);
     }
 
     //删除课程

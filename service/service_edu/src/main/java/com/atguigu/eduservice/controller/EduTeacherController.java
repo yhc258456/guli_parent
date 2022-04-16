@@ -5,7 +5,6 @@ import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduTeacher;
 import com.atguigu.eduservice.entity.vo.TeacherQuery;
 import com.atguigu.eduservice.service.EduTeacherService;
-import com.atguigu.servicebase.exceptionhandler.GuliException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -52,7 +51,7 @@ public class EduTeacherController {
 
     @GetMapping("pageTeacher/{current}/{limit}")
     public R pageListTeacher(@PathVariable long current, @PathVariable long limit) {
-        Page<EduTeacher> pageTeacher = new Page(current, limit);
+        Page<EduTeacher> pageTeacher = new Page<>(current, limit);
         IPage<EduTeacher> page = eduTeacherService.page(pageTeacher, null);
         List<EduTeacher> records = page.getRecords();
         long total = page.getTotal();

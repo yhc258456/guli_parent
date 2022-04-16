@@ -6,8 +6,6 @@ import com.atguigu.eduservice.entity.vo.CoursePublishVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 /**
  * <p>
  * 课程 Mapper 接口

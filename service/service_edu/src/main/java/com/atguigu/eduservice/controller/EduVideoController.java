@@ -37,20 +37,18 @@ public class EduVideoController {
     }
 
     //删除小节
-    // TODO 后面这个方法需要完善：删除小节时候，同时把里面视频删除
     @DeleteMapping("{id}")
     public R deleteVideo(@PathVariable String id) {
         EduVideo eduVideo = eduVideoService.getById(id);
         String videoSourceId = eduVideo.getVideoSourceId();
         if (!StringUtils.isEmpty(videoSourceId)) {
             R r = vodClient.romeveAliCoundVideo(videoSourceId);
-            if (r.getCode()==20001) throw new GuliException(20001,"远程服务响应超时");
+            if (r.getCode() == 20001) throw new GuliException(20001, "远程服务响应超时");
         }
         eduVideoService.removeById(id);
         return R.ok();
     }
 
-    //修改小节 TODO
     @PostMapping("updateById")
     public R updateVideoById(@RequestBody EduVideo eduVideo) {
         boolean b = eduVideoService.updateById(eduVideo);

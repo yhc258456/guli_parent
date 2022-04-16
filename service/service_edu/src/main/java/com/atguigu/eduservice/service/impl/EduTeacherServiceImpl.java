@@ -1,6 +1,5 @@
 package com.atguigu.eduservice.service.impl;
 
-import com.atguigu.commonutils.R;
 import com.atguigu.eduservice.entity.EduTeacher;
 import com.atguigu.eduservice.mapper.EduTeacherMapper;
 import com.atguigu.eduservice.service.EduTeacherService;
@@ -8,8 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +29,7 @@ public class EduTeacherServiceImpl extends ServiceImpl<EduTeacherMapper, EduTeac
         QueryWrapper<EduTeacher> wrapper = new QueryWrapper<>();
         wrapper.orderByDesc("id");
         //把分页数据封装到pageTeacher对象
-        baseMapper.selectPage(pageParam,wrapper);
+        baseMapper.selectPage(pageParam, wrapper);
 
         List<EduTeacher> records = pageParam.getRecords();
         long current = pageParam.getCurrent();
